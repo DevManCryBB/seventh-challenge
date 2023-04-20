@@ -83,7 +83,7 @@ inquirer
     ${ans.license}
     `
     console.log(ans)
-    fs.writeFile(`./output/README.md`,readmeFile,(err)=>{
+    fs.writeFile(`./output/GenREADME.md`,readmeFile,(err)=>{
         if (err){
             throw err
         }
