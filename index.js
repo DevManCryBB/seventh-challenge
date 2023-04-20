@@ -45,43 +45,43 @@ inquirer
         name: 'license',
     },
 ]).then(ans=>{
-    const readmeFile = `
+    const readmeFile = 
+`
+# ${ans.title}
+${licenseBadge(ans.license)}
 
-    # ${ans.title}
-    ${licenseBadge(ans.license)}
+## Description
+    
+${ans.description}
 
-    ## Description
+## Table of Contents
     
-    ${ans.description}
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
 
-    ## Table of Contents
-    
-    - [Installation](#installation)
-    - [Usage](#usage)
-    - [Credits](#credits)
-    - [License](#license)
-    
-    ## Installation
-    
-    ${ans.installation}
-    
-    ## Usage
-    
-    ${ans.usage}
-    
-    To add a screenshot, create an 'assets/images' folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
-    
-    ![alt text](assets/images/screenshot.png)
-    
-    ## Credits
-    
-    ${ans.credits}
-    ${ans.ThreeP}
-    ${ans.tuts}
-    
-    ## License
-    ${ans.license}
-    `
+## Installation
+
+${ans.installation}
+
+## Usage
+
+${ans.usage}
+
+To add a screenshot, create an 'assets/images' folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
+
+![alt text](assets/images/screenshot.png)
+
+## Credits
+
+${ans.credits}
+${ans.ThreeP}
+${ans.tuts}
+
+## License
+${ans.license}
+`
     console.log(ans)
     fs.writeFile(`./output/README.md`,readmeFile,(err)=>{
         if (err){
@@ -92,7 +92,7 @@ inquirer
 })
 function licenseBadge(license) {
     if (license !== "None"){
-      return `![github license](https://img.shields.io/badge/license-${license}-blue.svg)`
+      return `![](https://img.shields.io/badge/license-${license}-blue.svg)`
     }
     return ""
   }
