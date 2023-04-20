@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs')
 inquirer
+
 .prompt([
     {
         type: 'input',
@@ -11,12 +12,6 @@ inquirer
         type: 'input',
         message: 'Project Description: ',
         name: 'description'
-    },
-    {
-        type: 'checkbox',
-        message: 'What would you like in your table of contents?',
-        name: 'TOC',
-        choices: ['Installation','Usage','Credits','License']
     },
     {
         type: 'input',
@@ -33,39 +28,71 @@ inquirer
         message: 'Add GitHub URLs to project contributors: ',
         name: 'credits',
     },
+    {
+        type: 'input',
+        message: 'Did you have any third party collaborators?',
+        name: 'ThreeP',
+    },
+    {
+        type: 'input',
+        message: 'Did you follow any tutorials? Add link here: ',
+        name: 'tuts',
+    },
+    {
+        type: 'list',
+        message: 'What license did you use?',
+        choices: ['MIT','Apache2.0','GPL3.0', 'BSD3', 'None'],
+        name: 'license',
+    },
 ]).then(ans=>{
-    const html = `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="./style.css"/>
-    </head>
-    <body>
-        <h1 class=h1>${ans.title}</h1>
-        <h1 class=h1>Description</h1>
-        <p>${ans.description}</p>
-        <h1 class=h1>Table of Contents</h1>
-            <p><ul>
-            <li>${ans.TOC}</li>
-            <li>${ans.TOC}</li>
-            <li>${ans.TOC}</li>
-            <li>${ans.TOC}</li>
-            </ul></p>
-        <h1 class=h1>Installation</h1>
-        <p>${ans.installation}</p>
-        <h1 class=h1>Usage</h1>
-        <p>${ans.usage}</p>
-        <p><a href="${ans.credits}">${ans.credits}</a></p>
-    </body>
-    </html>`
+    const readmeFile = `
+
+    # ${ans.title}
+    ${licenseBadge(ans.license)}
+
+    ## Description
+    
+    ${ans.description}
+
+    ## Table of Contents
+    
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Credits](#credits)
+    - [License](#license)
+    
+    ## Installation
+    
+    ${ans.installation}
+    
+    ## Usage
+    
+    ${ans.usage}
+    
+    To add a screenshot, create an 'assets/images' folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README using the following syntax:
+    
+    ![alt text](assets/images/screenshot.png)
+    
+    ## Credits
+    
+    ${ans.credits}
+    ${ans.ThreeP}
+    ${ans.tuts}
+    
+    ## License
+    ${ans.license}
+    `
     console.log(ans)
-    fs.writeFile(`./output/${ans.name}.html`,html,(err)=>{
+    fs.writeFile(`./output/README.md`,readmeFile,(err)=>{
         if (err){
             throw err
         }
         console.log('success!')
     })
 })
+function licenseBadge(license) {
+    if (license !== "None"){
+      return `![github license](https://img.shields.io/badge/license-${license}-blue.svg)`
+    }
+    return ""
+  }
